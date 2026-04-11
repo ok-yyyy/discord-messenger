@@ -20,6 +20,13 @@ func Unmarshal(data []byte) (Message, error) {
 		}
 		return &msg, nil
 
+	case TypeAWSCost:
+		var msg AWSCostMessage
+		if err := json.Unmarshal(envelope.Data, &msg); err != nil {
+			return nil, fmt.Errorf("failed to unmarshal AWS cost message: %w", err)
+		}
+		return &msg, nil
+
 	default:
 		return nil, fmt.Errorf("unknown message type: %s", envelope.Type)
 	}
